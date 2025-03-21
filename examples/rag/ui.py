@@ -4,7 +4,7 @@ from datetime import datetime
 from docx import Document
 from typing import Callable, Generator, Tuple
 
-from db import insert_text, query_text
+from db import reset_db, insert_text, query_text
 from llm import ask_llm
 
 USE_STREAM = True
@@ -77,6 +77,7 @@ def main_interface():
                     accept_multiple_files=True
                 )
                 if st.form_submit_button("🚀 Start processing"):
+                    reset_db()
                     if uploaded_file:
                         success = True
                         for file in uploaded_file:

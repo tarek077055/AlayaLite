@@ -7,6 +7,10 @@ from utils import splitter, embedder
 
 client = Client()
 
+def reset_db():
+    global client 
+    client.reset()
+
 def insert_text(collection_name: str, 
                 docs: str, 
                 embed_model_path: str, 
@@ -27,7 +31,6 @@ def insert_text(collection_name: str,
     
     print(f'Inserting {len(chunks)} chunks')
     try:
-        client.reset()
         collection = client.get_or_create_collection(collection_name)
         items = []      # List of (id, document, embedding, metadata)
         for i in range(0, len(chunks)):
