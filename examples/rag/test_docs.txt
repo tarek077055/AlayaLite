@@ -1,0 +1,163 @@
+1- Background
+Retrieval enhancement generated (Retrieval - Augmented Generation, RAG) is commonly used a
+large model application be born technology, Retrieval enhancement generated through the external data
+Retrieval for the big model to provide additional knowledge input, thus reducing the illusion of the large
+model. Retrieval augmented generation usually consists of multiple functional modules (as shown in the
+following figure).
+Specifically, the retrieval enhancement generation system includes the following modules:
+● Query Classification: determining whether we need to go through the retrieval augmentation
+process or get responses directly from the large model;
+Retrieval: finding matching chunks from a collection of documents
+● Reranking: further sorting the results returned from the previous step;
+Low to repackage, Re - packing: will return to reorganize the result of the rearrangement stage;
+● Summarization: extracting key information and synthesizing it into the final system response;
+It should be noted that each of the above system modules has different implementation methods
+and strategies, so the effect of the system can be achieved depends on the implementation scheme
+choice of each module. The paper of Fudan University (Searching for best practices in Retrieving-
+Augmented generation) finds the optimal scheme selection of each module through a large number of
+experimental analysis. The main content of this paper is the translation and summary of the content of
+the paper, and all the chart data in the paper are from the above papers. It is important to note that the
+thesis discuss the choice of the optimal methods or strategies influenced by the test data is large, is
+discussed in this paper strictly speaking of "best practice" on a particular data set. The experimental
+scheme and ideas mentioned in the paper can be used for reference, and you can look for best
+practices on your own data set when implementing retrieval enhancement generation.
+
+2- Empirical selection of best practice solutions
+2.1 Query Classification
+Query classification is to distinguish between query need to introduce the purpose of retrieval,
+which query does not need, after all, retrieval enhanced because of the need to walk a retrieval process,
+and will need to retrieve the content to the model as a background information, the entire process is
+time-consuming. The thesis selected 15 different instruction fine adjustment tasks, including machine
+translation and closed domain question and answer (detail task instructions are included in the paper,
+and the sample). The author divided the tasks into "full" or "inadequate" two kinds, among them "full"
+said to solve this problem only need through their knowledge and language model with the aid of
+additional knowledge, and "inadequate" said need to borrow knowledge retrieval enhancement
+techniques such as supplement. On the experimental data, the paper only mention the Databricks -
+Dolly - a subset of the 15 k to experiment, and additional data was synthesized through the GPT - 4. No
+further details about the experimental data were disclosed.
+Experimental results shown in the table below, relatively simple classification model based on
+BERT can gain higher accurate called:
+Content Chunking
+In retrieval augmentation generation, the content that is relevant to a user query may be just a
+fragment of the document. Therefore, for the sake of efficiency, the retrieval object in retrieval
+enhancement is not the whole document, but the pre-segmented chunks (called chunks). Therefore, at
+the processing level of document data, we need to consider how to chunk. Based on the granularity of
+the chunking, the methods can be roughly divided into three categories:
+● Token-level chunking: In simple terms, it is a number of tokens. When the number of tokens
+reaches a predetermined value, a chunk is formed. This method is simple to implement, but the problem
+is obvious: it can break the semantic integrity of the sentence level by breaking the sentence directly.
+Semantic-level chunking: Large language model based semantic paragraph segmentation to
+ensure the semantic integrity of the paragraph (this task is somewhat similar to the traditional document
+semantic segmentation problem). The problem with this approach is the computational cost of large
+language models.
+● Sentence-level chunking: The retrieved object sentences can be split simply by punctuation. This
+approach achieves both semantic integrity and computational efficiency.
+In the work discussed in this paper, the authors adopt the sentence-level segmentation method.
+
+2.2.1 Selection of chunk size
+There is no doubt that chunk size is an important factor affecting the performance of the system:
+too small chunks will lose enough context information, too large chunks will bring unnecessary
+computational cost. Finding the right chunk size is a matter of finding a balance between two metrics:
+faithfulness and relevance. Faithfulness measures whether the responses generated by the large model
+after retrieving the chunk are hallucinatory, or whether the generated responses match the retrieved
+chunk at the semantic level. And relevance measures the semantic relevance between the query and
+the retrieval chunk. In our experiments, we use the evaluation module of LlamaIndex to compute these
+two metrics. In the experiment, Text-embedding-ADA-002 model is used to vectorize text segments,
+zephyr-7b-alpha is used as the content generation model, and gpt-3.5-turbo is used as the effect
+evaluation. Data set to build on the lyft_2021, adopting lyft_2021 before 6 pages content as the
+experimental data. The experimental results are shown in the table below, and it can be seen that a
+good chunk size can choose 512 or 256.
+
+2.2.2 Selection of tiling techniques
+Advanced chunking techniques include small-to-bigger and sliding Windows. While the sliding
+window approach is easy to understand, the small-to-bigger approach is more complex, as it involves
+splitting the document content into different sized chunks to form a hierarchical tree structure. In the
+retrieval process, the small-to-bigger method first locates (matches) the small chunk, and then returns
+the big chunk (the parent node of the small chunk) to the big model. The comparative experimental
+results of the two techniques are shown in the table below, and the experimental data is still lyft_2021.
+Interestingly, in this experiment, the more direct sliding window method works better.
+Embedding model Selection
+The choice of embedding model is also an important factor affecting the system performance. In
+this paper, we compare two different embedding models, LLM-Embedder and BAAI/bge-large-en. From
+the results in the table, we can see that the performance of LLM-Embedding is very close to that of bge-
+large-en, but one advantage of LLM-Embedder is its model size. LLM-Embedder is a good choice of
+embedding model.
+2.2.4 Vector Database Selection
+The choice of vector database will affect the retrieval efficiency and retrieval accuracy (the reason
+why the retrieval accuracy will be affected is that different vector databases will use different
+Approximate Nearest Neighbors (ANN) for vector retrieval). When selecting vector database needs to
+consider the factor of four dimensions, respectively is the index of different types of support, support 1
+billion scale vector retrieval, the support of the hybrid search, as well as cloud native ability strong and
+the weak. The table below compares four different vector databases: Weaviate, Faiss, Chroma, Qdrant,
+and Milvus.
+From the comparison results, it can be seen that Milvus is the best vector database, which
+basically meets the requirements of the above four dimensions.
+2.3 retrieval methods
+One difficulty of the retrieval task is that the semantic space of the user language and the
+document language are not consistent. If the semantic space is not transformed, it will be inaccurate to
+directly use the user's query to match the documents. A common solution is to narrow the semantic
+distance between the query language and the document through query rewriting and other operations.
+Retrieval Methods This section discusses a few different ways to do this.
+Low query rewriting: by big model directly to rewrite of user queries, after the goal is to rewrite the
+query can be more easy to find the relevant documents.
+● Query decomposition: for a complex query, the large model is used to split the query into
+multiple sub-problems, and the sub-problems are used to query separately.
+Pseudo document Generation: The basic idea of the method is to let the large model directly
+generate long text content based on user queries, and then match relevant documents based on the
+generated content. HyDE is a typical implementation of this kind of method.
+In addition, recent works have shown that hybrid search methods (combining word-based sparse
+search and vector-based dense search) can effectively improve the performance of the system. In our
+experiments, we compare the performance of BM25 (sparse retrieval method) and Contriver (dense
+retrieval method).
+
+2.3.1 Comparison experiments of different retrieval methods
+The experimental comparison is carried out on the dataset of TREC DL 2019 and 2020 paragraph
+ranking task. The experimental results are shown in the table below. From the results, we can see that
+the supervised method (LLM-Embedder) is significantly better than the unsupervised methods (BM25
+and Contrieer), where supervised and unsupervised refer to the difference between vector
+representation learning methods. On the basis of LLM - Embedder combined with HyDE, plus after
+hybrid search effect is best, but the query rewriting and query the separation effect is not very
+significant.
+
+2.4 Reranking method
+After the previous sorting process, you can now search for relevant documents. However, the
+model in the ranking stage is relatively simple (similar to the rough ranking stage), and a proportion of
+the documents recalled in the ranking stage will still be irrelevant. Therefore, we need to introduce a
+more powerful and complex model to refine the documents, the goal is to move the most relevant
+documents forward and remove the irrelevant documents. There are two different ranking methods
+compared in the paper, they are:
+Scheduling problem with low DLM Reranking: will form into a classification issue as categorical
+data are used to characterize the training language model, fine adjustment; In the inference stage, the
+model will output the probability value of "true", and sort the documents based on the probability value.
+Low TILDE Reranking: firstly calculates the likelihood value of each word in the query, and then to
+appear in the document query score obtained the likelihood value of sum document, the final score
+sorting based on the document.
+The experiment uses Microsoft's MS Marco paragraph ranking task dataset. Respectively,
+compared the monoT5 monoBERT, RankLLaMA and TILDEv2 four different models, the results shown
+in the following table.
+The results show that monoT5 can achieve a better balance between performance and efficiency,
+RankLLaMA has the best ranking effect, and TILDEv2 has the highest efficiency.
+2.5 document package
+The order in which the chunks are retrieved affects the performance of the model. There are
+usually three different packing strategies: "forward" sorts the tiles from most relevant to least relevant
+(and packs them in that order) and "reverse" sorts them in reverse order. Considering that large models
+tend to select chunks ranked at the head and tail and tend to ignore the middle chunks, we propose a
+third packing strategy, "sides", which puts the most relevant content at the beginning and end.
+Experiments show that "sides" is the most effective.
+
+2.6 Abstract
+Due to return to block content will be more feed (resulting in a large model of the length of the cue
+word will be very long), and the content of the return may be redundant or irrelevant content, so before
+will retrieve the result to large model, it is necessary to compress content (abstract). In the field of
+natural language processing, the document is divided into extract and generate the type paper, including
+the removable mainly through the importance of the sentences in the document, and then extract
+important sentences to form the (not involving the sentence rewriting) here, and generate type this
+paper will summarize the content of the document and to get a summary. Commonly used
+summarization methods include the following:
+● Recomp: Capable of both extractive and generative summarization,
+● LongLLMlingua: Summarizes by selecting key information relevant to a query.
+● Selective Context: Summarization by removing redundant information from multiple documents
+by calculating the information content of a lexical unit.
+Experiments are conducted on NQ, TrivaQA and HotpotQA datasets (as shown in the table below).
+The experimental results show that the performance of Recomp. LongLLMLingua is relatively average,
+but its generalization ability is acceptable.

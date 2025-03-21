@@ -1,0 +1,11 @@
+name: alayalite
+channels:
+  - defaults
+  - conda-forge
+
+
+dependencies:
+  - compilers
+  - openssl
+  - build
+  - pip

@@ -1,0 +1,5 @@
+add_subdirectory(executor)
+add_subdirectory(index)
+add_subdirectory(space)
+add_subdirectory(storage)
+add_subdirectory(utils)

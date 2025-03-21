@@ -1,0 +1,18 @@
+{
+    "portsAttributes": {
+      "8501": {
+        "label": "Application",
+        "onAutoForward": "openPreview"
+      }
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "shd101wyy.markdown-preview-enhanced"
+        ]
+      }
+    },
+    "forwardPorts": [8501]
+  }
+  

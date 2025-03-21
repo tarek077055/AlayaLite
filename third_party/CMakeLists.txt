@@ -1,0 +1,7 @@
+include(FetchContent)
+include(concurrentqueue.cmake)
+include(fmt.cmake)
+include(google_test.cmake)
+include(libcoro.cmake)
+include(pybind11.cmake)
+include(spdlog.cmake)
