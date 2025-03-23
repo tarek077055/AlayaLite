@@ -7,6 +7,12 @@ from typing import Callable, Generator, Tuple
 from db import reset_db, insert_text, query_text
 from llm import ask_llm
 
+# fix error print:
+# RuntimeError: Tried to instantiate class '__path__._path', but it does not exist! Ensure that it is registered via torch::class_
+import torch
+import os
+torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
+
 USE_STREAM = True
 
 st.set_page_config(
@@ -26,20 +32,26 @@ if "user" not in st.session_state:
 
 def read_file(uploaded_file):
     content = ""
+
+    file_type = uploaded_file.type
+
+    if uploaded_file.name.endswith('.md'):
+        file_type = 'text/markdown'
+
     try:
-        if uploaded_file.type in ["text/plain", "text/x-markdown"]:      
+        if file_type in ["text/plain", "text/x-markdown", "text/markdown"]:      
             content = uploaded_file.read().decode("utf-8")
-        elif uploaded_file.type == "application/pdf":
-            import PyPDF2
-            pdf_reader = PyPDF2.PdfReader(uploaded_file)
+        elif file_type == "application/pdf":
+            from pypdf import PdfReader 
+            pdf_reader = PdfReader(uploaded_file)
             content = "\n".join([page.extract_text() for page in pdf_reader.pages])
-        elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        elif file_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
             doc = Document(uploaded_file)
             content = "\n".join([para.text for para in doc.paragraphs])
         else:
-            raise ValueError(f"Unsupported file types: {uploaded_file.type}")
+            raise ValueError(f"Unsupported file types: {uploaded_file.type} for file {uploaded_file.name}")
     except Exception as e:
-        raise RuntimeError(f"Fail to read files: {str(e)}. Type: {uploaded_file.type}")
+        raise RuntimeError(f"Fail to read files: {uploaded_file.name}. Type: {uploaded_file.type}. Error: {e}")
     return content
 
 

@@ -12,7 +12,7 @@ class BAAIEmbedder:
         self.path = path
         self.model = FlagAutoModel.from_finetuned(path,
                                       query_instruction_for_retrieval="Represent this sentence for searching relevant passages:",
-                                      use_fp16=True)
+                                      use_fp16=False)
 
     def encode(self, texts: List[str]) -> List[List[float]]:
         return self.model.encode(texts)

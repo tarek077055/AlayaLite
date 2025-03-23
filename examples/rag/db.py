@@ -1,6 +1,6 @@
 from alayalite import Client
 
-from typing import Callable, Generator, Tuple
+import traceback
 
 from utils import splitter, embedder
 
@@ -38,6 +38,7 @@ def insert_text(collection_name: str,
         collection.insert(items)
     except Exception as e:
         print(f"Error during index creation: {e}")
+        traceback.print_exc()
         return False
     print(f'Insertion done!')
 
@@ -60,6 +61,7 @@ def query_text(collection_name: str, embed_model_path: str, query: str, top_k = 
             retrieved_docs: str = ''
     except Exception as e:
         print(f"Error during retrieval: {e}")
+        traceback.print_exc()
         retrieved_docs = ''
     
     return retrieved_docs
