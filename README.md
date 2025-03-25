@@ -62,16 +62,11 @@ print(recall)
 
 We evaluate the performance of AlayaLite against other vector database systems using [ANN-Benchmark](https://github.com/erikbern/ann-benchmarks) (compile locally and open `-march=native` in your `CMakeLists.txt` to reproduce the results). Several experimental results are presented below.
 
-<table style="border-collapse: collapse; border: none;">
-  <tr>
-    <td style="border: none;"><img src="./.assets/glove-25-angular.jpg" alt="GloVe-25 Angular"></td>
-    <td style="border: none;"><img src="./.assets/sift-128-euclidean.jpg" alt="SIFT-128 Euclidean"></td>
-  </tr>
-  <tr>
-    <td style="text-align: center; font-weight: bold; border: none;">GloVe-25 Angular</td>
-    <td style="text-align: center; font-weight: bold; border: none;">SIFT-128 Euclidean</td>
-  </tr>
-</table>
+| ![GloVe-25 Angular](./.assets/glove-25-angular.jpg)         | ![SIFT-128 Euclidean](./.assets/sift-128-euclidean.jpg)       |
+| ----------------------------------------------------------- | ------------------------------------------------------------- |
+| <div style="text-align: center;">**GloVe-25 Angular**</div> | <div style="text-align: center;">**SIFT-128 Euclidean**</div> |
+
+
 
 ## Contributing
 
