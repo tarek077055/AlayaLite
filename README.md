@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/AlayaDB-AI"><img src="./docs/banner.jpg" width=300 alt="AlayaDB Log"></a>
+  <a href="https://github.com/AlayaDB-AI"><img src="./.assets/banner.jpg" width=300 alt="AlayaDB Log"></a>
 </p>
 
 
@@ -25,7 +25,7 @@
 
 ## Getting Started!
 
-Get started with just a single command!
+Get started with just one command!
 ```bash
 pip install alayalite # install the python package.
 ```
@@ -58,7 +58,20 @@ recall = calc_recall(result, gt)
 print(recall)
 ```
 
+## Benchmark
 
+We evaluate the performance of AlayaLite against other vector database systems using [ANN-Benchmark](https://github.com/erikbern/ann-benchmarks) (compile locally and open `-march=native` in your `CMakeLists.txt` to reproduce the results). Several experimental results are presented below.
+
+<table style="border-collapse: collapse; border: none;">
+  <tr>
+    <td style="border: none;"><img src="./.assets/glove-25-angular.jpg" alt="GloVe-25 Angular"></td>
+    <td style="border: none;"><img src="./.assets/sift-128-euclidean.jpg" alt="SIFT-128 Euclidean"></td>
+  </tr>
+  <tr>
+    <td style="text-align: center; font-weight: bold; border: none;">GloVe-25 Angular</td>
+    <td style="text-align: center; font-weight: bold; border: none;">SIFT-128 Euclidean</td>
+  </tr>
+</table>
 
 ## Contributing
 
